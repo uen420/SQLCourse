@@ -80,10 +80,11 @@ create table KetQua
 (
 	MaSV varchar(10) not null,
 	MaHP int not null,
-	Diem decimal(4,1),
+	Diem real,
 	constraint PK_KetQua primary key (MaSV,MaHP),
 	constraint FK_KetQua1 foreign key (MaSV) references SinhVien(MaSV),
-	constraint FK_KetQua2 foreign key (MaHP) references HocPhan(MaHP)
+	constraint FK_KetQua2 foreign key (MaHP) references HocPhan(MaHP),
+	constraint Chk_Diem check (DIEM>=0 and DIEM<=10)
 	)
 
 go
@@ -126,6 +127,16 @@ insert into DieuKien(MaMH,MaMH_Truoc) values ('TH0002','TH0001')
 insert into DieuKien(MaMH,MaMH_Truoc) values ('HH0002','HH0001')
 insert into DieuKien(MaMH,MaMH_Truoc) values ('VL0002','VL0001')
 
+--Inserting into table HocPhan
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (1,'TH0001',1,1996,N'N.D.Lâm')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (2,'VL0001',1,1996,N'T.N. Dung')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (3,'TH0002',1,1997,N'H.Tuân')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (4,'TH0001',1,1997,N'N.D.Lâm')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (5,'TH0003',2,1997,N'N.C.Phú')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (6,'HH0001',1,1996,N'L.T.Phúc')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (7,'TH0002',1,1998,N'P.T.Như')
+insert into HocPhan(MaHP,MaMH,HocKy,Nam,GiaoVien) values (8,'TO0001',1,1996,N'N.C.Phú')
+
 --Inserting into table KetQua
 insert into KetQua(MaSV,MaHP,Diem) values ('K27.0017',4,9.5)
 insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',1,10)
@@ -134,3 +145,5 @@ insert into KetQua(MaSV,MaHP,Diem) values ('K27.0018',2,8)
 insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',3,9)
 
 go
+
+
