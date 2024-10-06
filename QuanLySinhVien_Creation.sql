@@ -1,4 +1,4 @@
---Creating and dropping the DB, makes it easier for me to execute the script every time :v
+﻿--Creating and dropping the DB, makes it easier for me to execute the script every time :v
 use master
 go
 drop database QuanLySinhVien
@@ -6,7 +6,6 @@ go
 create database QuanLySinhVien
 go
 use QuanLySinhVien
-go
 
 
 
@@ -19,7 +18,6 @@ create table Khoa
 		constraint U_TenKhoa unique (TenKhoa),
 		constraint FK_Khoa primary key (MaKhoa)
 )
-go
 
 
 
@@ -28,9 +26,10 @@ create table SinhVien
 (
 	MaSV varchar(10) not null,
 	TenSV varchar(100) not null,
+	MaKhoa varchar(10) not null,
 	Nam  int default 1,
 		constraint PK_SinhVien primary key (MaSV),
-		constraint FK_SinhVien foreign key (MaSV) references Khoa(MaKhoa),
+		constraint FK_SinhVien foreign key (MaKhoa) references Khoa(MaKhoa),
 		constraint check_nam_sv check (Nam>=1 and Nam<=4)
 	)
 
@@ -42,8 +41,9 @@ create table MonHoc
 	MaMH varchar(10) not null,
 	TenMH varchar(100) not null,
 	TinChi int not null,
+	MaKhoa varchar(10) not null,
 		constraint PK_MonHoc primary key (MaMH),
-		constraint FK_MonHoc foreign key (MaMH) references Khoa(MaKhoa),
+		constraint FK_MonHoc foreign key (MaKhoa) references Khoa(MaKhoa),
 		constraint U_TenMH unique (TenMH),
 	)
 
@@ -81,10 +81,56 @@ create table KetQua
 	MaSV varchar(10) not null,
 	MaHP int not null,
 	Diem decimal(4,1),
-	constraint PK_KetQua1 primary key (MaSV,MaHP),
+	constraint PK_KetQua primary key (MaSV,MaHP),
 	constraint FK_KetQua1 foreign key (MaSV) references SinhVien(MaSV),
 	constraint FK_KetQua2 foreign key (MaHP) references HocPhan(MaHP)
 	)
 
+go
 
 
+
+
+
+
+--Insertion of data into the DB
+
+
+--Inserting into table Khoa
+insert into Khoa(MaKhoa,TenKhoa,NamThanhLap) values ('TOAN',N'Toán',1976)
+insert into Khoa(MaKhoa,TenKhoa,NamThanhLap) values ('HOA',N'Hóa',1980)
+insert into Khoa(MaKhoa,TenKhoa,NamThanhLap) values ('SINH',N'Sinh',1981)
+insert into Khoa(MaKhoa,TenKhoa,NamThanhLap) values ('VLY',N'Vật Lý',1982)
+
+--Inserting into table SinhVien
+insert into SinhVien(MaSV,TenSV,Nam,MaKhoa) values ('K27.0017',N'Nguyen Cong Phu',1,'TOAN')
+insert into SinhVien(MaSV,TenSV,Nam,MaKhoa) values ('K26.0008',N'Phan Anh Khanh',2,'TOAN')
+insert into SinhVien(MaSV,TenSV,Nam,MaKhoa) values ('K25.0005',N'Ly Thanh',3,'HOA')
+insert into SinhVien(MaSV,TenSV,Nam,MaKhoa) values ('K27.0018',N'Han Quoc Viet',2,'VLY')
+
+--Inserting into table MonHoc
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('TH0001',N'Tin học đại cương A1',4,'TOAN')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('TH0002',N'Cấu trúc đữ liệu',4,'TOAN')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('TO0001',N'Toán rời rạc',3,'TOAN')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('HH0001',N'Hóa đại cương A1',5,'HOA')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('HH0002',N'Hóa đại cương A2',5,'HOA')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('VL0002',N'Vật lý đại cương A2',4,'VLY')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('TH0003',N'Cơ sở dữ liệu',5,'TOAN')
+insert into MonHoc(MaMH,TenMH,TinChi,MaKhoa) values ('VL0001',N'Vật lý đại cương A1',5,'VLY')
+
+
+--Inserting into table DieuKien
+insert into DieuKien(MaMH,MaMH_Truoc) values ('TH0003','TO0001')
+insert into DieuKien(MaMH,MaMH_Truoc) values ('TH0003','TH0002')
+insert into DieuKien(MaMH,MaMH_Truoc) values ('TH0002','TH0001')
+insert into DieuKien(MaMH,MaMH_Truoc) values ('HH0002','HH0001')
+insert into DieuKien(MaMH,MaMH_Truoc) values ('VL0002','VL0001')
+
+--Inserting into table KetQua
+insert into KetQua(MaSV,MaHP,Diem) values ('K27.0017',4,9.5)
+insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',1,10)
+insert into KetQua(MaSV,MaHP,Diem) values ('K25.0005',6,6)
+insert into KetQua(MaSV,MaHP,Diem) values ('K27.0018',2,8)
+insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',3,9)
+
+go
