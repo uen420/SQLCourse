@@ -147,3 +147,35 @@ insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',3,9)
 go
 
 
+--Exercise 1
+--select TenSV from SinhVien where MaKhoa='TOAN'
+
+--Exercise 2
+--create view Ex2 as
+--select TenMH,TinChi from MonHoc
+--go
+
+--Exercise 3
+--select * from KetQua where MaSV='K26.0008'
+
+--Exercise 4
+--select TenSV,MaMH from SinhVien,HocPhan,KetQua where KetQua.MaSV=SinhVien.MaSV and KetQua.MaHP=HocPhan.MaHP and DIEM>7
+
+--Exercise 5
+--select TenSV,TenMH from SinhVien,Khoa,MonHoc where SinhVien.MaKhoa=Khoa.MaKhoa and MonHoc.MaKhoa=Khoa.MaKhoa and TenMH='Toán rời rạc'
+
+--Exercise 6
+--select TenSV,TenMH,Diem from SinhVien,MonHoc,KetQua,HocPhan where HocPhan.HocKy=1 and HocPhan.Nam=1996
+
+--Exercise 7
+--select MonHoc2.TenMH 
+--	from MonHoc MonHoc1,MonHoc MonHoc2,DieuKien
+--		where DieuKien.MaMH=MonHoc1.MaMH and MonHoc1.TenMH='Cơ sở dữ liệu' and DieuKien.MaMH_Truoc=MonHoc2.MaMH
+
+--Exercise 8
+select MonHoc2.TenMH 
+	from MonHoc MonHoc1,MonHoc MonHoc2,DieuKien
+		where DieuKien.MaMH_Truoc=MonHoc1.MaMH and MonHoc1.TenMH=N'Cơ sở dữ liệu' and DieuKien.MaMH=MonHoc2.MaMH
+
+--Exercise 9
+select TenMH,
