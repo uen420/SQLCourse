@@ -1,4 +1,4 @@
-﻿--Creating and dropping the DB, makes it easier for me to execute the script every time :v
+﻿--Creating and dropping the DB
 use master
 go
 drop database QuanLySinhVien
@@ -146,36 +146,100 @@ insert into KetQua(MaSV,MaHP,Diem) values ('K26.0008',3,9)
 
 go
 
+--Listing TenSV, MaMH and Diem of each subject
+create view lolz as
+select TenSV,MaMH,Diem 
+	from SinhVien,KetQua,HocPhan
+		where KetQua.MaSV = SinhVien.MaSV and KetQua.MaHP = HocPhan.MaHP
+go
+
+--Listing TenSV, MaMH and Diem>8 of each subject
+create view rofl as
+select TenSV,MaMH,Diem 
+	from SinhVien,KetQua,HocPhan
+		where KetQua.MaSV = SinhVien.MaSV and KetQua.MaHP = HocPhan.MaHP
+			and Diem>8
+go
+
+--Listing TenSV, TenMH and Diem>8 of each subject
+select TenSV,TenMH,Diem 
+	from SinhVien,KetQua,HocPhan,MonHoc
+		where KetQua.MaSV = SinhVien.MaSV and KetQua.MaHP = HocPhan.MaHP 
+			and HocPhan.MaMH = MonHoc.MaMH
+			and Diem>8
+go
+
+--Listing MaSV, TenSV and average Diem of each student
+select SinhVien.MaSV,TenSV,
+	avg(Diem) as N'Điểm Trung Bình' --remember THIS to make the third column show correctly, otherwise it shows up as "(unnamed column)"
+		from SinhVien,KetQua
+			where KetQua.MaSV=SinhVien.MaSV
+				group by SinhVien.MaSV,TenSV
+go
+
+--Listing MaSV, TenSV and average>8 Diem of each student
+select SinhVien.MaSV,TenSV,
+	avg(Diem) as N'Điểm Trung Bình' --remember THIS to make the third column show correctly, otherwise it shows up as "(unnamed column)"
+		from SinhVien,KetQua
+			where KetQua.MaSV=SinhVien.MaSV
+				group by SinhVien.MaSV,TenSV
+go
+
 
 --Exercise 1
---select TenSV from SinhVien where MaKhoa='TOAN'
+create view Ex1 as
+select TenSV 
+	from SinhVien 
+		where MaKhoa='TOAN'
+go
 
 --Exercise 2
---create view Ex2 as
---select TenMH,TinChi from MonHoc
---go
+create view Ex2 as
+select TenMH,TinChi 
+	from MonHoc
+go
 
 --Exercise 3
---select * from KetQua where MaSV='K26.0008'
+create view Ex3 as
+select * --* = regex, obviously
+	from KetQua 
+		where MaSV='K26.0008'
+go
 
 --Exercise 4
---select TenSV,MaMH from SinhVien,HocPhan,KetQua where KetQua.MaSV=SinhVien.MaSV and KetQua.MaHP=HocPhan.MaHP and DIEM>7
+create view Ex4 as
+select TenSV,MaMH 
+	from SinhVien,HocPhan,KetQua 
+		where KetQua.MaSV=SinhVien.MaSV and KetQua.MaHP=HocPhan.MaHP and DIEM>7
+go
 
 --Exercise 5
---select TenSV,TenMH from SinhVien,Khoa,MonHoc where SinhVien.MaKhoa=Khoa.MaKhoa and MonHoc.MaKhoa=Khoa.MaKhoa and TenMH='Toán rời rạc'
+create view Ex5 as
+select TenSV,TenMH 
+	from SinhVien,Khoa,MonHoc 
+		where SinhVien.MaKhoa=Khoa.MaKhoa and MonHoc.MaKhoa=Khoa.MaKhoa and TenMH='Toán rời rạc'
+go
+
 
 --Exercise 6
---select TenSV,TenMH,Diem from SinhVien,MonHoc,KetQua,HocPhan where HocPhan.HocKy=1 and HocPhan.Nam=1996
+create view Ex6 as
+select TenSV,TenMH,Diem 
+	from SinhVien,MonHoc,KetQua,HocPhan 
+		where HocPhan.HocKy=1 and HocPhan.Nam=1996
+go
+
 
 --Exercise 7
---select MonHoc2.TenMH 
---	from MonHoc MonHoc1,MonHoc MonHoc2,DieuKien
---		where DieuKien.MaMH=MonHoc1.MaMH and MonHoc1.TenMH='Cơ sở dữ liệu' and DieuKien.MaMH_Truoc=MonHoc2.MaMH
+create view Ex7 as
+select MonHoc2.TenMH 
+	from MonHoc MonHoc1,MonHoc MonHoc2,DieuKien
+		where DieuKien.MaMH=MonHoc1.MaMH and MonHoc1.TenMH='Cơ sở dữ liệu' and DieuKien.MaMH_Truoc=MonHoc2.MaMH
+go
 
 --Exercise 8
+create view Ex8 as
 select MonHoc2.TenMH 
 	from MonHoc MonHoc1,MonHoc MonHoc2,DieuKien
 		where DieuKien.MaMH_Truoc=MonHoc1.MaMH and MonHoc1.TenMH=N'Cơ sở dữ liệu' and DieuKien.MaMH=MonHoc2.MaMH
+go
 
---Exercise 9
-select TenMH,
